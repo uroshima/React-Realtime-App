@@ -1,8 +1,26 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Chat from './components/Chat';
+import SockJS from 'sockjs-client';
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+
+    var sock = new SockJS('https://mydomain.com/my_prefix');
+    sock.onopen = function() {
+        console.log('open');
+    };
+
+    sock.onmessage = function(e) {
+        console.log('message', e.data);
+    };
+
+    sock.onclose = function() {
+        console.log('close');
+    };
+  }
   render() {
     return (
       <div className="App">
@@ -20,6 +38,7 @@ class App extends Component {
             Learn React
           </a>
         </header>
+        <Chat />
       </div>
     );
   }
